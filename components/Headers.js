@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import {
   GlobeAltIcon,
   MenuIcon,
   UserCircleIcon,
   SearchIcon,
+  UsersIcon,
 } from "@heroicons/react/solid";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css";
+import { DateRangePicker } from "react-date-range"; // theme css file
 
 const Headers = () => {
+  const [searchInput, setSearchInput] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [noOfGuest, setNoOfGuest] = useState(1);
+  const [btnSearch, setBtnSearch] = useState(false);
+
+  const handleSelect = (ranges) => {
+    setStartDate(ranges.selection.startDate);
+    setEndDate(ranges.selection.endDate);
+  };
+
+
+
+  const selectionRange = {
+    startDate: startDate,
+    endDate: endDate,
+    key: "selection",
+  };
+
   return (
     <header className="sticky top-0 shadow-md bg-white z-50">
       <div className="grid grid-cols-3 max-w-[120rem] mx-auto z-50 py-4 sm:px-10 md:px-10 lg:px-20 xl:px-20">
@@ -23,13 +46,34 @@ const Headers = () => {
         </div>
 
         {/*Middle*/}
-        <div className="relative flex items-center max-w-xs rounded-full py-2 pl-2 pr-2 lg:border border-gray-300 lg:shadow lg:bg-white">
+        <div className="relative flex items-center max-w-xl rounded-full py-2 pl-2 pr-2 lg:border border-gray-300 lg:shadow lg:bg-white">
           <input
             type="text"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyPress={() => setBtnSearch(!btnSearch)}
             placeholder="Commencez votre recherche..."
             className="outline-none flex-grow text-[15px] font-medium text-gray-900 placeholder-black pl-4 w-full h-full rounded-full bg-transparent"
           />
-          <SearchIcon className="hidden h-8 color-white bg-red-500 text-white rounded-full p-2 cursor-pointer lg:inline-flex" />
+          {searchInput ? (
+            <button className="outline-none bg-red-500 hover:bg-red-700 rounded-full cursor-pointer">
+              <div className="relative inline-flex items-center space-x-2 p-2 z-10">
+                <SearchIcon className="animate-pulse h-4 text-white rounded-full" />
+                <span className="text-sm font-medium text-white pr-1">
+                  Rechercher
+                </span>
+              </div>
+            </button>
+          ) : (
+            <button className="outline-none bg-red-500 rounded-full w-9 cursor-pointer">
+              <div className="relative inline-flex items-center p-2 z-10">
+                <SearchIcon className="h-4 text-white rounded-full" />
+                <span className="text-sm font-medium text-white pr-1 opacity-0">
+                  Rechercher
+                </span>
+              </div>
+            </button>
+          )}
         </div>
 
         {/*Right*/}
@@ -38,14 +82,43 @@ const Headers = () => {
             Devenez hôte
           </div>
           <GlobeAltIcon className="h-5 rounded-full cursor-pointer" />
-          <div className="flex items-center space-x-2 border border-gray-300 rounded-full py-1 pl-3 pr-1 bg-white hover:shadow-md transition duration-300 cursor-pointer">
+          <div className="flex items-center space-x-2 border border-gray-300 rounded-full py-1 pl-3 pr-1 bg-white hover:shadow-md transition duration-500 ease-in-out cursor-pointer">
             <MenuIcon className="h-5" />
             <UserCircleIcon className="h-8" />
           </div>
         </div>
       </div>
+
+      {searchInput && (
+        <div className="flex justify-center items-center w-full h-auto">
+          <div className="flex flex-col max-w-lg">
+            <div className="flex items-center my-5 pl-5 border-b border-gray-400 pb-5">
+              <h2 className="text-xs font-medium flex-grow uppercase">
+                Nombres de voyageurs
+              </h2>
+              <UsersIcon className="h-4" />
+              <input
+                type="number"
+                min={1}
+                value={noOfGuest}
+                onChange={(e) => setNoOfGuest(e.target.value)}
+                className="outline-none w-12 ml-3 text-sm font-medium"
+              />
+            </div>
+            <DateRangePicker
+              ranges={[selectionRange]}
+              minDate={new Date()}
+              rangeColors={["#FD5B61"]}
+              onChange={handleSelect}
+              className="mb-8"
+            />
+          </div>
+        </div>
+      )}
     </header>
   );
 };
+
+// flex justify-center max-w-[850px] mx-auto transition duration-300
 
 export default Headers;

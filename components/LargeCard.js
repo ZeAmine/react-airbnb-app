@@ -26,5 +26,3 @@ const LargeCard = ({ img, title, description, buttonText }) => {
 };
 
 export default LargeCard;
-
-// absolute top-32 left-12

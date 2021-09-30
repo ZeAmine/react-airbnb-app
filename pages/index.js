@@ -39,8 +39,6 @@ export default function Home({ exploreData, cardsData }) {
           </div>
         </section>
 
-        {/*overflow-x-scroll scrollbar-hide p-2*/}
-
         <LargeCard
           img="https://links.papareact.com/4cj"
           title="Je deviens hôte"
