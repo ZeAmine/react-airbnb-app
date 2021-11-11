@@ -10,8 +10,8 @@ const Footer = () => {
             <li className="hover:underline cursor-pointer">
               Fonctionnement d'Airbnb
             </li>
-            <li className=" hover:underline cursor-pointer">Newsroom</li>
-            <li className=" hover:underline cursor-pointer">Airbnb 2021</li>
+            <li className="hover:underline cursor-pointer">Newsroom</li>
+            <li className="hover:underline cursor-pointer">Airbnb 2021</li>
             <li className=" hover:underline cursor-pointer">Investisseurs</li>
             <li className=" hover:underline cursor-pointer">Airbnb Plus</li>
             <li className=" hover:underline cursor-pointer">Airbnb Luxe</li>
